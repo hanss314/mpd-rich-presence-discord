@@ -27,13 +27,14 @@ static DiscordRichPresence getPresenceForTrack(const TrackInfo& track)
     payload.details = track.TrackName.c_str();
     payload.startTimestamp = time(0) - track.PlayTimeSeconds;
     payload.largeImageKey = "mpd_large";
+    payload.largeImageText = "Music Player Daemon";
     
     return payload;
 }
 
 void sendIdle(DiscordPresenceRpc& rpc)
 {
-    const char* appIdle = "382302420073709568";
+    const char* appIdle = "408834798614872064";
     
     DiscordRichPresence p = {};
     p.details = "Idle";
@@ -44,8 +45,8 @@ void sendIdle(DiscordPresenceRpc& rpc)
 void updatePresence(MpdClient& mpd, DiscordPresenceRpc& rpc)
 {
     
-    const char* appPlaying = "381948295830044683";
-    const char* appPaused = "382303152327753739";
+    const char* appPlaying = "408834798614872064";
+    const char* appPaused = "408834798614872064";
     
     MpdClient::State state = mpd.getState();
     switch(state)
@@ -58,9 +59,13 @@ void updatePresence(MpdClient& mpd, DiscordPresenceRpc& rpc)
             if(state == MpdClient::Paused)
             {
                 p.startTimestamp = 0;
+                p.smallImageKey = "paused_small";
+                p.smallImageText = "Paused";
                 setAppSend(appPaused, p, rpc);
                 break;
             }
+            p.smallImageKey = "playing_small";
+            p.smallImageText = "Playing";
             setAppSend(appPlaying, p, rpc);
             break;
         }
