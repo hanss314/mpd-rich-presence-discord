@@ -11,7 +11,7 @@
 // POSIX systems are the majority of systems both running and created so it's okay
 #include "DiscordPresenceRpc.h"
 
-static void setAppSend(const char* app, DiscordRichPresence& payload, DiscordPresenceRpc& rpc)
+static void setAppSend(DiscordRichPresence& payload, DiscordPresenceRpc& rpc)
 {
     rpc.send(payload);
 }
@@ -37,20 +37,14 @@ static DiscordRichPresence getPresenceForTrack(const TrackInfo& track)
 
 void sendIdle(DiscordPresenceRpc& rpc)
 {
-    const char* appIdle = "408834798614872064";
-    
     DiscordRichPresence p = {};
     p.details = "Idle";
     p.largeImageKey = "mpd_large";
-    setAppSend(appIdle, p, rpc);
+    setAppSend(p, rpc);
 }
 
 void updatePresence(MpdClient& mpd, DiscordPresenceRpc& rpc)
 {
-    
-    const char* appPlaying = "408834798614872064";
-    const char* appPaused = "408834798614872064";
-    
     MpdClient::State state = mpd.getState();
     switch(state)
     {
@@ -64,12 +58,12 @@ void updatePresence(MpdClient& mpd, DiscordPresenceRpc& rpc)
                 p.startTimestamp = 0;
                 p.smallImageKey = "paused_small";
                 p.smallImageText = "Paused";
-                setAppSend(appPaused, p, rpc);
+                setAppSend(p, rpc);
                 break;
             }
             p.smallImageKey = "playing_small";
             p.smallImageText = "Playing";
-            setAppSend(appPlaying, p, rpc);
+            setAppSend(p, rpc);
             break;
         }
         case MpdClient::Idle:
@@ -146,7 +140,7 @@ int main(int argc, char** args)
     DiscordPresenceRpc rpc;
     int count = 0;
     const static int MaxExceptionsWhenForked = 10;
-    
+    rpc.setApp("408834798614872064");
     while(true)
     {
         try
