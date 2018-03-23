@@ -13,6 +13,7 @@ DiscordPresenceRpc::~DiscordPresenceRpc()
 static void handleDiscordSpectate(const char* secret)
 {
     char command[80];
+    printf("Hello");
     strcpy(command, "xdg-open");
     strcat(command, secret);
     system(command);
