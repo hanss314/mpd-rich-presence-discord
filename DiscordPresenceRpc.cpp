@@ -24,7 +24,6 @@ void DiscordPresenceRpc::setApp(const char* app)
 {
     DiscordEventHandlers h;
     h.spectateGame = handleDiscordSpectate;
-    Discord_Shutdown();
     Discord_Initialize(app, &h, 1, 0);
 }
 
