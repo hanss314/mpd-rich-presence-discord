@@ -30,7 +30,7 @@ static DiscordRichPresence getPresenceForTrack(const TrackInfo& track)
     payload.largeImageText = "Music Player Daemon";
     if(track.Artist == "by YouTube"){
         payload.spectateSecret = track.Comment.c_str();
-        payload.spectateSecret = "test";
+        payload.matchSecret = "test";
     }
     
     return payload;
