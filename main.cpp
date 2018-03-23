@@ -13,7 +13,6 @@
 
 static void setAppSend(const char* app, DiscordRichPresence& payload, DiscordPresenceRpc& rpc)
 {
-    rpc.setApp(app);
     rpc.send(payload);
 }
 
