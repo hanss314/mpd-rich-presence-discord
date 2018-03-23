@@ -28,6 +28,9 @@ static DiscordRichPresence getPresenceForTrack(const TrackInfo& track)
     payload.startTimestamp = time(0) - track.PlayTimeSeconds;
     payload.largeImageKey = "mpd_large";
     payload.largeImageText = "Music Player Daemon";
+    if(track.Artist == "by YouTube"){
+        payload.spectateSecret = track.Comment.c_str();
+    }
     
     return payload;
 }

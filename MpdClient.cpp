@@ -119,19 +119,20 @@ std::string createArtist(mpd_song_t* song)
     std::stringstream stream;
     
     const char* artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
-    const char* album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
     if(artist)
         stream << "by " << artist;
-    if(album)
-    {
-        if(artist) stream << " (";
-        stream << "album: " << album;
-        if(artist) stream << ")";
-    }
+
     
     RET_CLAMP_STRSTREAM(stream);
 }
 
+std::string createComment(mpd_song_t* song){
+    std::stringstream stream;
+
+    const char* comment = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
+    if(comment) stream << comment;
+    RET_CLAMP_STRSTREAM(stream);
+}
 
 TrackInfo MpdClient::getCurrentTrack()
 {
@@ -151,7 +152,7 @@ TrackInfo MpdClient::getCurrentTrack()
     t.PlayTimeSeconds = mpd_status_get_elapsed_time(mpdStatus);
     t.Artist = createArtist(mpdCurrentSong);
     t.TrackName = createTitle(mpdCurrentSong);
-    
+    t.Comment = createComment(mpdCurrentSong);
     mpd_song_free(mpdCurrentSong);
     mpd_status_free(mpdStatus);
     

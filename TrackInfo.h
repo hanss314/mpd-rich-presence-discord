@@ -6,6 +6,7 @@ struct TrackInfo
     uint64_t PlayTimeSeconds;
     
     std::string TrackName;
+    std::string Comment;
     int TrackNumber;
     int TotalTracks;
 };
